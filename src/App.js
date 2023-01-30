@@ -1,7 +1,10 @@
 import { Alchemy, Network } from 'alchemy-sdk';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import './App.css';
+import Block from './Block';
+import Transaction from './Transaction';
 
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
@@ -30,7 +33,34 @@ function App() {
     getBlockNumber();
   });
 
-  return <div className="App">Block Number: {blockNumber}</div>;
+    return (
+      <div className="wrapper">
+        <h1>Blockchain Browser</h1>
+        <BrowserRouter>
+          <nav>
+            <ul>
+              <li><Link to="/">Newest Block</Link></li>
+              <li><Link to="/block/1">Block 1</Link></li>
+            </ul>
+          </nav>
+
+          <Switch>
+            <Route exact path="/">
+              <Block />
+            </Route>
+            <Route path="/transaction/:transactionHash">
+              <Transaction />
+            </Route>
+            <Route path="/block/:paramBlockNumber">
+              <Block />
+            </Route>
+            <Route path="/address/:paramAddress">
+              <Block />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
 }
 
 export default App;

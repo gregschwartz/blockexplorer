@@ -1,0 +1,143 @@
+// import React from 'react';
+// import { Alchemy, Network } from 'alchemy-sdk';
+// import { useEffect, useState, useRef } from 'react';
+
+// const settings = {
+//   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
+//   network: Network.ETH_MAINNET,
+// };
+
+// const alchemy = new Alchemy(settings);
+
+// class Block extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       block: null
+//     }
+//   }
+
+//   const [blockNumber, setBlockNumber] = useState();
+//   const [hash, setHash] = useState();
+//   const [parentHash, setParentHash] = useState();
+//   const [timestamp, setTimestamp] = useState();
+//   const [nonce, setNonce] = useState();
+//   const [difficulty, setDifficulty] = useState();
+//   const [gasLimit, setGasLimit] = useState();
+//   const [gasUsed, setGasUsed] = useState();
+//   const [miner, setMiner] = useState();
+//   const [extraData, setExtraData] = useState();
+//   const [baseFeePerGas, setBaseFeePerGas] = useState();
+  
+
+//   async function getBlockNumber() {
+//     const newestBlock = await alchemy.core.getBlockWithTransactions();
+//     //block.current = newestBlock;
+    
+//     setBlockNumber(newestBlock.number);
+//     setHash(newestBlock.hash);
+//     setParentHash(newestBlock.parentHash);
+//     setTimestamp(newestBlock.timestamp);
+//     setNonce(newestBlock.nonce);
+//     setDifficulty(newestBlock.difficulty);
+//     setGasLimit(newestBlock.gasLimit.toString());
+//     setGasUsed(newestBlock.gasUsed.toString());
+//     setMiner(newestBlock.miner);
+//     setExtraData(newestBlock.extraData);
+//     setBaseFeePerGas(newestBlock.baseFeePerGas.toString());
+//   }
+
+//   /*
+//     * the blockchain network itself
+//     * blocks in the blockchain
+//     * transactions in a block
+//     * accounts
+//   */
+
+
+//   useEffect(() => {
+    
+//     getBlockNumber();
+//   });
+
+//   // console.log("block",block.current);
+//   // console.log("blockParts",blockParts.current);
+
+//   if (false && block == null) {
+//     return (
+//       <h1>Loading...</h1>
+//     )
+//   }
+
+//   return (
+//     <div className="App">
+//       <table id="blockParts">
+//         <thead>
+//           <tr>
+//             <th>Field</th>
+//             <th>Value</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           <tr>
+//             <td>blockNumber</td>
+//             <td>{blockNumber}</td>
+//           </tr>
+//           <tr>
+//             <td>hash</td>
+//             <td>{hash}</td>
+//           </tr>
+//           <tr>
+//             <td>parentHash</td>
+//             <td>{parentHash}</td>
+//           </tr>
+//           <tr>
+//             <td>timestamp</td>
+//             <td>{timestamp}</td>
+//           </tr>
+//           <tr>
+//             <td>nonce</td>
+//             <td>{nonce}</td>
+//           </tr>
+//           <tr>
+//             <td>difficulty</td>
+//             <td>{difficulty}</td>
+//           </tr>
+//           <tr>
+//             <td>gasLimit</td>
+//             <td>{gasLimit}</td>
+//           </tr>
+//           <tr>
+//             <td>gasUsed</td>
+//             <td>{gasUsed}</td>
+//           </tr>
+//           <tr>
+//             <td>miner</td>
+//             <td>{miner}</td>
+//           </tr>
+//           <tr>
+//             <td>extraData</td>
+//             <td>{extraData}</td>
+//           </tr>
+//           <tr>
+//             <td>baseFeePerGas</td>
+//             <td>{baseFeePerGas}</td>
+//           </tr>
+//         </tbody>
+//       </table>
+//       <table id="transactions">
+//         <thead>
+//           <tr>
+//             <th>Field</th>
+//             <th>Value</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// }
+
+// export default Block;
