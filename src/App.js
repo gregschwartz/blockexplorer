@@ -2,7 +2,7 @@ import { Alchemy, Network } from 'alchemy-sdk';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import './App.css';
+import './App.scss';
 import Block from './Block';
 import Transaction from './Transaction';
 

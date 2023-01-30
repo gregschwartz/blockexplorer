@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alchemy, Network } from 'alchemy-sdk';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 const settings = {
@@ -63,28 +63,31 @@ function Block() {
         </thead>
         <tbody>
           <tr>
+            <td>Block Number</td>
+            <td>{blockNumber}</td>
+          </tr>
+          <tr>
             <td>Hash</td>
             <td>{block.hash}</td>
           </tr>
           <tr>
             <td>Parent Hash</td>
-            <td>{block.parentHash}</td>
-          </tr>
-          <tr>
-            <td>Block Number</td>
-            <td>{blockNumber}</td>
+            <td><Link to={`/block/${block.parentHash}`}>{block.parentHash}</Link></td>
           </tr>
           <tr>
             <td>Timestamp</td>
-            <td>{block.timestamp}</td>
+            <td>{new Date(block.timestamp * 1000).toLocaleString()}</td>
           </tr>
           <tr>
             <td>Nonce</td>
             <td>{block.nonce}</td>
           </tr>
           <tr>
-            <td>Difficulty</td>
-            <td>{block.difficulty}</td>
+            <td>Miner</td>
+            <td>{block.miner}</td>
+          </tr>
+          <tr>
+            <th colSpan="2">Gas</th>
           </tr>
           <tr>
             <td>Base Fee Per Gas</td>
@@ -99,8 +102,11 @@ function Block() {
             <td>{block.gasUsed.toString()}</td>
           </tr>
           <tr>
-            <td>Miner</td>
-            <td>{block.miner}</td>
+            <th colSpan="2">Misc</th>
+          </tr>
+          <tr>
+            <td>Difficulty</td>
+            <td>{block.difficulty}</td>
           </tr>
           <tr>
             <td>Extra Data</td>
@@ -123,7 +129,7 @@ function Block() {
               <td>{t.from}</td>
               <td>{t.to}</td>
               <td>{t.value.toString()}</td>
-              <td><Link to={`/transaction/${t.transactionIndex}`}>View</Link></td>
+              <td><Link to={`/transaction/${t.hash}`}>View</Link></td>
             </tr>
           ))}
         </tbody>

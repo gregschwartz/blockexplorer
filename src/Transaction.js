@@ -10,34 +10,42 @@ const settings = {
 
 const alchemy = new Alchemy(settings);
 var transaction = {};
+var loading = true;
 
 function Transaction() {
   const { transactionHash } = useParams();
-  const [blockNumber, setBlockNumber] = useState();
+  const [amount, setAmount] = useState();
 
   async function getTransaction() {
-    transaction = await alchemy.core.getTransaction(transactionHash);
+    loading = true;
+
+    //console.log("transactionHash",transactionHash);
+    transaction = await alchemy.core.getTransactionReceipt(transactionHash);
     console.log(transaction);
 
-    //used to tell React to render, I'm sure there's a better way though.
-    setBlockNumber(transaction.blockNumber);
+    loading = false;
+
+    const transactionInfo = await alchemy.core.getTransaction(transactionHash);
+    console.log(transactionInfo);
+    setAmount(transactionInfo.value.toString());
   }
 
   useEffect(() => {
     getTransaction();
   });
   
+  if (loading) {
+    return <h1>Loading...</h1>
+  }
+
   if (transaction.from === undefined) {
     return <h1>Invalid transaction id!</h1>
   }
 
   return (
     <div className="App">
-      <h1>
-        Block: 
-        <Link to={`/block/${transaction.blockNumber}`}>{blockNumber}</Link>
-      </h1>
-      <table id="blockParts">
+      <h1>Transaction</h1>
+      <table id="transactionParts">
         <thead>
           <tr>
             <th>Field</th>
@@ -47,76 +55,101 @@ function Transaction() {
         <tbody>
           <tr>
             <td>From</td>
-            <td>{transaction.from}</td>
+            <td><Link to={`/account/${transaction.from}`}>{transaction.from}</Link></td>
           </tr>
           <tr>
             <td>To</td>
-            <td>{transaction.to}</td>
+            <td><Link to={`/account/${transaction.to}`}>{transaction.to}</Link></td>
           </tr>
           <tr>
-            <td>value</td>
-            <td>{transaction.value.toString()}</td>
+            <td>Value</td>
+            <td>{amount}</td>
           </tr>
           <tr>
-            <td>accessList</td>
-            <td>{transaction.accessList}</td>
+            <td>Block</td>
+            <td><Link to={`/block/${transaction.blockHash}`}>{transaction.blockHash}</Link></td>
           </tr>
           <tr>
-            <td>chainId</td>
-            <td>{transaction.chainId}</td>
-          </tr>
-          <tr>
-            <td>confirmations</td>
+            <td>Confirmations</td>
             <td>{transaction.confirmations}</td>
           </tr>
           <tr>
-            <td>creates</td>
-            <td>{transaction.creates}</td>
+            <th colSpan="2">Gas</th>
           </tr>
           <tr>
-            <td>data</td>
-            <td>{transaction.data}</td>
+            <td>GasLimit</td>
+            <td>{transaction.gasLimit ? transaction.gasLimit.toString() : "n/a"}</td>
           </tr>
           <tr>
-            <td>gasLimit</td>
-            <td>{transaction.gasLimit.toString()}</td>
+            <td>GasPrice</td>
+            <td>{transaction.gasPrice ? transaction.gasPrice.toString() : "n/a"}</td>
           </tr>
           <tr>
-            <td>gasPrice</td>
-            <td>{transaction.gasPrice.toString()}</td>
+            <th colSpan="2">Technical Information</th>
           </tr>
           <tr>
-            <td>hash</td>
-            <td>{transaction.hash}</td>
+            <td>AccessList</td>
+            <td>{transaction.accessList ? transaction.accessList : "--"}</td>
           </tr>
           <tr>
-            <td>nonce</td>
-            <td>{transaction.nonce}</td>
+            <td>ChainId</td>
+            <td>{transaction.chainId ? transaction.chainId : "--"}</td>
           </tr>
           <tr>
-            <td>r</td>
-            <td>{transaction.r}</td>
+            <td>Creates</td>
+            <td>{transaction.creates ? transaction.creates : "--"}</td>
           </tr>
           <tr>
-            <td>s</td>
-            <td>{transaction.s}</td>
+            <td>Data</td>
+            <td>{transaction.data ? transaction.data : "--"}</td>
           </tr>
           <tr>
-            <td>to</td>
-            <td>{transaction.to}</td>
+            <td>Nonce</td>
+            <td>{transaction.nonce ? transaction.nonce : "--"}</td>
           </tr>
           <tr>
-            <td>transactionIndex</td>
-            <td>{transaction.transactionIndex}</td>
-          </tr>
-          <tr>
-            <td>type</td>
+            <td>Type</td>
             <td>{transaction.type}</td>
           </tr>
           <tr>
-            <td>v</td>
-            <td>{transaction.v}</td>
+            <td>R</td>
+            <td>{transaction.r ? transaction.r : "--"}</td>
           </tr>
+          <tr>
+            <td>S</td>
+            <td>{transaction.s ? transaction.s : "--"}</td>
+          </tr>
+          <tr>
+            <td>V</td>
+            <td>{transaction.v ? transaction.v : "--"}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Logs generated by this transaction</h2>
+      <table id="log">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Address</th>
+            <th>Topics</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transaction.logs.length === 0 && <tr><td colSpan={4}>None</td></tr>}
+          {transaction.logs.map(l => (
+            <tr key={l.logIndex}>
+              <td>{l.logIndex}</td>
+              <td>{l.address}</td>
+              <td>
+              {l.topics.map(topic => (
+                <div key={topic}>{topic}</div>
+              ))}
+              </td>
+              <td>{l.data}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
