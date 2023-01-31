@@ -34,7 +34,6 @@ function Block() {
 
   async function getBlock() {
     var number = undefined;
-    var newest = true;
 
     //alternative place to look for the block number or hash
     const formInputMatch = search.match(/numberOrHash=(.*)/);
@@ -43,7 +42,7 @@ function Block() {
       if (paramBlockNumber.slice(0,2) === "0x") {
         number = paramBlockNumber;
       // eslint-disable-next-line eqeqeq
-      } else if (parseInt(paramBlockNumber) > 0 && parseInt(paramBlockNumber) == paramBlockNumber) { 
+      } else if (parseInt(paramBlockNumber) >= 0 && parseInt(paramBlockNumber) == paramBlockNumber) { 
         //second part intentionally uses == not ===, because that prevents giberish from pulling out the first number, e.g. "3c9" parsing into 3
         number = parseInt(paramBlockNumber);
       } else {
@@ -143,8 +142,9 @@ function Block() {
           </tr>
         </thead>
         <tbody>
-          {block.transactions.map(t => (
-            <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : ""}>
+          {block.transactions.length === 0 && <tr><td colSpan={4} class='noResults'>None</td></tr>}
+          {block.transactions.map((t,index) => (
+            <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
               <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
               <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
               <td>{t.value ? t.value.toString() : "--"}</td>

@@ -79,7 +79,7 @@ function Account() {
           </tr>
         </thead>
         <tbody>
-          {sent.length === 0 && <tr><td colSpan={3}>None</td></tr>}
+          {sent.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
           {sent.map((t, index) => (
             <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
               <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
@@ -98,7 +98,7 @@ function Account() {
           </tr>
         </thead>
         <tbody>
-          {received.length === 0 && <tr><td colSpan={3}>None</td></tr>}
+          {received.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
           {received.map((t, index) => (
             <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
               <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>

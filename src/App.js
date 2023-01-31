@@ -41,7 +41,7 @@ function App() {
           <nav>
             <ul>
               <li><Link to="/">Newest Block</Link></li>
-              <li><Link to="/block/1">Block 1</Link></li>
+              <li><Link to="/block/0">Genesis Block</Link></li>
             </ul>
           </nav>
 

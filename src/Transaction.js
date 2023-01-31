@@ -142,7 +142,7 @@ function Transaction() {
           </tr>
         </thead>
         <tbody>
-          {transaction.logs.length === 0 && <tr><td colSpan={4}>None</td></tr>}
+          {transaction.logs.length === 0 && <tr><td colSpan={4} class='noResults'>None</td></tr>}
           {transaction.logs.map(l => (
             <tr key={l.logIndex}>
               <td>{l.logIndex}</td>
