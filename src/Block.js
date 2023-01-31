@@ -2,6 +2,7 @@ import React from 'react';
 import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Identicon from 'react-identicons';
 
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -54,6 +55,7 @@ function Block() {
   return (
     <div className="App">
       <h1>Block</h1>
+      <Identicon string={blockNumber} />
       <table id="blockParts">
         <thead>
           <tr>
