@@ -1,19 +1,68 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+$theme-colors: (
+    "info": tomato,
+    "danger": teal
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+html body {
+  font-family: sans-serif;
+  margin: 20px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.topNav {
+  form input#searchField {
+    background: no-repeat left / 1.23076923em url(https://en.wikipedia.org/w/skins/Vector/resources/common/images/search.svg?ac00d);
+    width: 90%;
+    padding-left: 25px;
+  }
+
+  .links a {
+    float: left;
+    margin-right: 10px;
+  }
+
+  margin-bottom: 40px;
+}
+
+#title {
+  box-shadow: 0 1px #a2a9b1;
+  position: relative;
+
+  span {
+    font-weight: normal;
+    font-size: 1em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+#rightColumn {
+  .wrapper {
+    text-align: center;
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    background-color: #f8f9fa;
+    color: black;
+    margin: 0.5em 0 0.5em 1em;
+    padding: 0.2em;
+    font-size: 88%;
+    line-height: 1.5em;
+
+    p {
+      font-weight: bold;
+    }
+  }
 }
 
 table {
   text-align: left;
+
+  td.noResults {
+    text-align: center;
+    color: gray;
+  }
 
   td:nth-child(3), td:nth-child(4) {
     width: 24em;
