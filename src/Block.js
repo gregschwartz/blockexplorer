@@ -3,6 +3,9 @@ import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import Identicon from 'react-identicons';
+import Table from 'react-bootstrap/Table';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -73,87 +76,103 @@ function Block() {
   }
 
   return (
-    <div className="App">
-      <h1>Block</h1>
-      <Identicon string={blockNumber} />
-      <table id="blockParts">
-        <thead>
-          <tr>
-            <th>Field</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Block Number</td>
-            <td>{blockNumber}</td>
-          </tr>
-          <tr>
-            <td>Hash</td>
-            <td>{block.hash}</td>
-          </tr>
-          <tr>
-            <td>Parent Hash</td>
-            <td><Link to={`/block/${block.parentHash}`}>{block.parentHash}</Link></td>
-          </tr>
-          <tr>
-            <td>Timestamp</td>
-            <td>{new Date(block.timestamp * 1000).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <td>Nonce</td>
-            <td>{block.nonce}</td>
-          </tr>
-          <tr>
-            <td>Miner</td>
-            <td>{block.miner}</td>
-          </tr>
-          <tr>
-            <th colSpan="2">Gas</th>
-          </tr>
-          <tr>
-            <td>Base Fee Per Gas</td>
-            <td>{block.baseFeePerGas ? block.baseFeePerGas.toString() : "n/a"}</td>
-          </tr>
-          <tr>
-            <td>Gas Used</td>
-            <td>{block.gasUsed.toString()} ({Math.round(block.gasUsed / block.gasLimit * 100)}% of {block.gasLimit.toString()} max)</td>
-          </tr>
-          <tr>
-            <th colSpan="2">Misc</th>
-          </tr>
-          <tr>
-            <td>Difficulty</td>
-            <td>{block.difficulty}</td>
-          </tr>
-          <tr>
-            <td>Extra Data</td>
-            <td>{block.extraData}</td>
-          </tr>
-        </tbody>
-      </table>
-      <table id="transactions">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>Amount</th>
-            <th>Transaction Hash</th>
-          </tr>
-        </thead>
-        <tbody>
-          {block.transactions.length === 0 && <tr><td colSpan={4} class='noResults'>None</td></tr>}
-          {block.transactions.map((t,index) => (
-            <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
-              <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
-              <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
-              <td>{t.value ? t.value.toString() : "--"}</td>
-              <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+    <>
+    <Row>
+      <Col>
+        <div id='title'>
+          <span>Ethereum</span>
+          <h1>Block #{blockNumber}</h1>
+        </div>
+      </Col>
+    </Row>
+    <Row>
+      <Col xs={9}>
+        <table id="blockParts">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hash</td>
+              <td>{block.hash}</td>
+            </tr>
+            <tr>
+              <td>Parent Hash</td>
+              <td><Link to={`/block/${block.parentHash}`}>{block.parentHash}</Link></td>
+            </tr>
+            <tr>
+              <td>Timestamp</td>
+              <td>{new Date(block.timestamp * 1000).toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td>Nonce</td>
+              <td>{block.nonce}</td>
+            </tr>
+            <tr>
+              <td>Miner</td>
+              <td>{block.miner}</td>
+            </tr>
+            <tr>
+              <th colSpan="2">Gas</th>
+            </tr>
+            <tr>
+              <td>Base Fee Per Gas</td>
+              <td>{block.baseFeePerGas ? block.baseFeePerGas.toString() : "n/a"}</td>
+            </tr>
+            <tr>
+              <td>Gas Used</td>
+              <td>{block.gasUsed.toString()} ({Math.round(block.gasUsed / block.gasLimit * 100)}% of {block.gasLimit.toString()} max)</td>
+            </tr>
+            <tr>
+              <th colSpan="2">Misc</th>
+            </tr>
+            <tr>
+              <td>Difficulty</td>
+              <td>{block.difficulty}</td>
+            </tr>
+            <tr>
+              <td>Extra Data</td>
+              <td>{block.extraData}</td>
+            </tr>
+          </tbody>
+        </table>
+        </Col>
+        <Col xs={3} id="rightColumn">
+          <div class="wrapper">
+            <p>Block #{blockNumber}</p>
+            <Identicon string={blockNumber} size={200} />
+          </div>
+        </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Table striped id="transactions">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Amount</th>
+              <th>Transaction Hash</th>
+            </tr>
+          </thead>
+          <tbody>
+            {block.transactions.length === 0 && <tr><td colSpan={4} class='noResults'>None</td></tr>}
+            {block.transactions.map((t,index) => (
+              <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
+                <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
+                <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
+                <td>{t.value ? t.value.toString() : "--"}</td>
+                <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Col>
+    </Row>
+    </>
   );
 }
 

@@ -1,56 +1,33 @@
-import { Alchemy, Network } from 'alchemy-sdk';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 import './App.scss';
 import Block from './Block';
 import Transaction from './Transaction';
 import Account from './Account';
-
-// Refer to the README doc for more information about using API
-// keys in client-side code. You should never do this in production
-// level code.
-const settings = {
-  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
-  network: Network.ETH_MAINNET,
-};
-
-
-// In this week's lessons we used ethers.js. Here we are using the
-// Alchemy SDK is an umbrella library with several different packages.
-//
-// You can read more about the packages here:
-//   https://docs.alchemy.com/reference/alchemy-sdk-api-surface-overview#api-surface
-const alchemy = new Alchemy(settings);
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function App() {
-  const [blockNumber, setBlockNumber] = useState();
-
-  useEffect(() => {
-    async function getBlockNumber() {
-      // setBlockNumber(await alchemy.core.getBlockNumber());
-    }
-
-    getBlockNumber();
-  });
-
     return (
-      <div className="wrapper">
-        <h1>Blockchain Browser</h1>
-        <BrowserRouter>
-          <nav>
-            <ul>
-              <li><Link to="/">Newest Block</Link></li>
-              <li><Link to="/block/0">Genesis Block</Link></li>
-            </ul>
-          </nav>
+      <Container fluid>
 
-          <form action="/block" method="get">
-            <label>View Block by Hash or Block Number
-              <input type="input" name="numberOrHash" placeholder='e.g. 42 or 0xa1b2c3...' />
-            </label>
-            <input type='submit' value='View' />
-          </form>
+        <BrowserRouter>
+          <Row className="d-flex topNav">
+            <Col className="d-flex align-items-center" xs={12} sm={3}>
+              <img class="mw-logo-icon" src="https://en.wikipedia.org/static/images/icons/wikipedia.png" alt="Wikipedia icon" aria-hidden="true" height="50" width="50" /> <span>Blockpedia</span>
+            </Col>
+            <Col className="d-flex align-items-center" xs={12} sm={6}>
+              <form action="/block" method="get">              
+                <input type="input" id="searchField" name="numberOrHash" placeholder='Search Blockpedia by block number or hash' />
+                <input type='submit' value='Search' />
+              </form>
+            </Col>
+            <Col className="links d-flex align-items-center" xs={12} sm={3}>
+              <Link to="/">Newest Block</Link>
+              <Link to="/block/0">Genesis Block</Link>
+            </Col>
+          </Row>
 
           <Switch>
             <Route exact path="/">
@@ -72,8 +49,10 @@ function App() {
               <Block />
             </Route>
           </Switch>
+
         </BrowserRouter>
-      </div>
+      </Container>
+
     );
 }
 

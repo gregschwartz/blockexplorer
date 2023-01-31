@@ -3,6 +3,7 @@ import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import Identicon from 'react-identicons';
+import Table from 'react-bootstrap/Table';
 
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -70,7 +71,7 @@ function Account() {
       <h1>Account</h1>
       <Identicon string={accountHash} />
       <h3>Balance: {balance} eth</h3>
-      <table id="sent">
+      <Table striped id="sent">
         <thead>
           <tr>
             <th>To</th>
@@ -88,8 +89,8 @@ function Account() {
             </tr>
           ))}
         </tbody>
-      </table>
-      <table id="received">
+      </Table>
+      <Table striped id="received">
         <thead>
           <tr>
             <th>From</th>
@@ -107,7 +108,7 @@ function Account() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
