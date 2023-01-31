@@ -1,6 +1,6 @@
 # How I achieved the goals of the project
 
-.....
+Sorry this is late! I spent a lot of time learning React, since I've not used it before. Particularly helpful tutorials were [routing](https://www.digitalocean.com/community/tutorials/how-to-handle-routing-in-react-apps-with-react-router), [rendering data](https://blog.logrocket.com/render-large-lists-react-5-methods-examples/), and [conditional content](https://reactjs.org/docs/conditional-rendering.html). Plus `console.log` is my friend, as always. 
 
 # Features
 
