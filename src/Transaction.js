@@ -11,6 +11,7 @@ const settings = {
 
 const alchemy = new Alchemy(settings);
 var transaction = {};
+var transactionMoreInfo = {};
 var loading = true;
 
 function Transaction() {
@@ -22,13 +23,11 @@ function Transaction() {
 
     //console.log("transactionHash",transactionHash);
     transaction = await alchemy.core.getTransactionReceipt(transactionHash);
-    console.log(transaction);
 
     loading = false;
 
-    const transactionInfo = await alchemy.core.getTransaction(transactionHash);
-    console.log(transactionInfo);
-    setAmount(transactionInfo.value.toString());
+    transactionMoreInfo = await alchemy.core.getTransaction(transactionHash);
+    setAmount(transactionMoreInfo.value.toString());
   }
 
   useEffect(() => {
@@ -79,12 +78,16 @@ function Transaction() {
             <th colSpan="2">Gas</th>
           </tr>
           <tr>
-            <td>GasLimit</td>
-            <td>{transaction.gasLimit ? transaction.gasLimit.toString() : "n/a"}</td>
+            <td>Used</td>
+            <td>{transaction.gasUsed > 0 ? transaction.gasUsed.toString() : "n/a"}</td>
           </tr>
           <tr>
-            <td>GasPrice</td>
-            <td>{transaction.gasPrice ? transaction.gasPrice.toString() : "n/a"}</td>
+            <td>Limit</td>
+            <td>{transactionMoreInfo.gasLimit > 0 ? transactionMoreInfo.gasLimit.toString() : "n/a"}</td>
+          </tr>
+          <tr>
+            <td>Price</td>
+            <td>{transactionMoreInfo.gasPrice > 0 ? transactionMoreInfo.gasPrice.toString() : "n/a"}</td>
           </tr>
           <tr>
             <th colSpan="2">Technical Information</th>

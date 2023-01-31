@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import './App.scss';
 import Block from './Block';
 import Transaction from './Transaction';
+import Account from './Account';
 
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
@@ -44,14 +45,27 @@ function App() {
             </ul>
           </nav>
 
+          <form action="/block" method="get">
+            <label>View Block by Hash or Block Number
+              <input type="input" name="numberOrHash" placeholder='e.g. 42 or 0xa1b2c3...' />
+            </label>
+            <input type='submit' value='View' />
+          </form>
+
           <Switch>
             <Route exact path="/">
               <Block />
+            </Route>
+            <Route path="/account/:accountHash">
+              <Account />
             </Route>
             <Route path="/transaction/:transactionHash">
               <Transaction />
             </Route>
             <Route path="/block/:paramBlockNumber">
+              <Block />
+            </Route>
+            <Route path="/block/">
               <Block />
             </Route>
             <Route path="/address/:paramAddress">

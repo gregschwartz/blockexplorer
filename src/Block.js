@@ -34,14 +34,23 @@ function Block() {
 
   async function getBlock() {
     var number = undefined;
-    if (paramBlockNumber != null) {
+    var newest = true;
+
+    //alternative place to look for the block number or hash
+    const formInputMatch = search.match(/numberOrHash=(.*)/);
+
+    if (paramBlockNumber) {
       if (paramBlockNumber.slice(0,2) === "0x") {
         number = paramBlockNumber;
-      } else if (parseInt(paramBlockNumber) > 0 && parseInt(paramBlockNumber) === paramBlockNumber) { //prevents "3c9e84" parsing into 3
+      // eslint-disable-next-line eqeqeq
+      } else if (parseInt(paramBlockNumber) > 0 && parseInt(paramBlockNumber) == paramBlockNumber) { 
+        //second part intentionally uses == not ===, because that prevents giberish from pulling out the first number, e.g. "3c9" parsing into 3
         number = parseInt(paramBlockNumber);
       } else {
         error = true;
       }
+    } else if (formInputMatch && parseInt(formInputMatch?.[1]) > 0) {
+      number = parseInt(formInputMatch?.[1]);
     }
 
     if (!error) {
@@ -109,7 +118,7 @@ function Block() {
           </tr>
           <tr>
             <td>Gas Used</td>
-            <td>{block.gasUsed.toString()} / {block.gasLimit.toString()} max</td>
+            <td>{block.gasUsed.toString()} ({Math.round(block.gasUsed / block.gasLimit * 100)}% of {block.gasLimit.toString()} max)</td>
           </tr>
           <tr>
             <th colSpan="2">Misc</th>
@@ -130,16 +139,16 @@ function Block() {
             <th>From</th>
             <th>To</th>
             <th>Amount</th>
-            <th>More</th>
+            <th>Transaction Hash</th>
           </tr>
         </thead>
         <tbody>
           {block.transactions.map(t => (
             <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : ""}>
-              <td>{t.from}</td>
-              <td>{t.to}</td>
-              <td>{t.value.toString()}</td>
-              <td><Link to={`/transaction/${t.hash}`}>View</Link></td>
+              <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
+              <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
+              <td>{t.value ? t.value.toString() : "--"}</td>
+              <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
             </tr>
           ))}
         </tbody>
