@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import Identicon from 'react-identicons';
 
 const settings = {
@@ -16,22 +16,34 @@ var error = false;
 function Block() {
   const { paramBlockNumber } = useParams();
 
+  //for highlighting a transaction
+  const { search } = useLocation();
+  const searchMatch = search.match(/highlightTransaction=(.*)/);
+  const highlightTransaction = searchMatch?.[1];
+
   const [blockNumber, setBlockNumber] = useState();
+
+  /*
+    Identicon params, use later for theme
+    size: (Number) Single number to represent width and height of identicon image. Defaults to 400.
+    padding (Number) Padding around blocks. Defaults to 0.
+    bg (String) Override color for background blocks. Transparent by default.
+    fg (String) Override color for foreground blocks. Generated randomly from hash by default.
+    palette (Array) Provide an array of colors to be used as foreground block colors.
+  */
 
   async function getBlock() {
     var number = undefined;
     if (paramBlockNumber != null) {
-      if (paramBlockNumber.slice(0,2)=="0x") {
+      if (paramBlockNumber.slice(0,2) === "0x") {
         number = paramBlockNumber;
-      } else if (parseInt(paramBlockNumber) > 0 && parseInt(paramBlockNumber) == paramBlockNumber) { //prevents "3c9e84" parsing into 3
+      } else if (parseInt(paramBlockNumber) > 0 && parseInt(paramBlockNumber) === paramBlockNumber) { //prevents "3c9e84" parsing into 3
         number = parseInt(paramBlockNumber);
       } else {
         error = true;
-        console.log('error');
       }
     }
 
-    console.log(number);
     if (!error) {
       block = await alchemy.core.getBlockWithTransactions(number);
     }
@@ -96,12 +108,8 @@ function Block() {
             <td>{block.baseFeePerGas ? block.baseFeePerGas.toString() : "n/a"}</td>
           </tr>
           <tr>
-            <td>Gas Limit</td>
-            <td>{block.gasLimit.toString()}</td>
-          </tr>
-          <tr>
             <td>Gas Used</td>
-            <td>{block.gasUsed.toString()}</td>
+            <td>{block.gasUsed.toString()} / {block.gasLimit.toString()} max</td>
           </tr>
           <tr>
             <th colSpan="2">Misc</th>
@@ -127,7 +135,7 @@ function Block() {
         </thead>
         <tbody>
           {block.transactions.map(t => (
-            <tr key={t.transactionIndex}>
+            <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : ""}>
               <td>{t.from}</td>
               <td>{t.to}</td>
               <td>{t.value.toString()}</td>

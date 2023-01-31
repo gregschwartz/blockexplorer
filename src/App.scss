@@ -19,5 +19,9 @@ table {
     width: 24em;
     word-break: break-all;
   }
+
+  tr.highlight td {
+    background-color: burlywood;
+  }
 }
 

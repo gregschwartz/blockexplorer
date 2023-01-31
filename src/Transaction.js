@@ -2,6 +2,7 @@ import React from 'react';
 import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Identicon from 'react-identicons';
 
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -45,6 +46,7 @@ function Transaction() {
   return (
     <div className="App">
       <h1>Transaction</h1>
+      <Identicon string={transaction.hash} size="200" />
       <table id="transactionParts">
         <thead>
           <tr>
@@ -55,11 +57,11 @@ function Transaction() {
         <tbody>
           <tr>
             <td>From</td>
-            <td><Link to={`/account/${transaction.from}`}>{transaction.from}</Link></td>
+            <td><Link to={`/account/${transaction.from}?highlightTransaction=${transactionHash}`}>{transaction.from}</Link></td>
           </tr>
           <tr>
             <td>To</td>
-            <td><Link to={`/account/${transaction.to}`}>{transaction.to}</Link></td>
+            <td><Link to={`/account/${transaction.to}?highlightTransaction=${transactionHash}`}>{transaction.to}</Link></td>
           </tr>
           <tr>
             <td>Value</td>
@@ -67,7 +69,7 @@ function Transaction() {
           </tr>
           <tr>
             <td>Block</td>
-            <td><Link to={`/block/${transaction.blockHash}`}>{transaction.blockHash}</Link></td>
+            <td><Link to={`/block/${transaction.blockHash}?highlightTransaction=${transactionHash}`}>{transaction.blockHash}</Link></td>
           </tr>
           <tr>
             <td>Confirmations</td>
