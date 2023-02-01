@@ -25,15 +25,7 @@ function Block() {
   const highlightTransaction = searchMatch?.[1];
 
   const [blockNumber, setBlockNumber] = useState();
-
-  /*
-    Identicon params, use later for theme
-    size: (Number) Single number to represent width and height of identicon image. Defaults to 400.
-    padding (Number) Padding around blocks. Defaults to 0.
-    bg (String) Override color for background blocks. Transparent by default.
-    fg (String) Override color for foreground blocks. Generated randomly from hash by default.
-    palette (Array) Provide an array of colors to be used as foreground block colors.
-  */
+  const [isNewestBlock, setIsNewestBlock] = useState(false);
 
   async function getBlock() {
     var number = undefined;
@@ -61,6 +53,14 @@ function Block() {
 
     //used to tell React to render, I'm sure there's a better way though.
     setBlockNumber(block.number);
+
+    //figure out newest block number
+    if(number === undefined) {
+      setIsNewestBlock(true);
+    } else {
+      const newestBlock = await alchemy.core.getBlockWithTransactions();
+      setIsNewestBlock(block.number === newestBlock.number);
+    }
   }
 
   useEffect(() => {
@@ -199,7 +199,8 @@ function Block() {
       </Col>
       <Col className='cell' xs={6} md={4}>
         Succeeded by<br />
-        <Link to={`/blocks/${blockNumber+1}`}>Block {blockNumber+1}</Link>
+        {!isNewestBlock && <Link to={`/blocks/${blockNumber+1}`}>Block {blockNumber+1}</Link>}
+        {isNewestBlock && <i>Nothing... yet!</i>}
       </Col>
     </Row>
     </>
