@@ -7,6 +7,7 @@ import Account from './Account';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Homepage from './Homepage';
 
 function App() {
     return (
@@ -18,34 +19,31 @@ function App() {
               <img class="mw-logo-icon" src="https://en.wikipedia.org/static/images/icons/wikipedia.png" alt="Wikipedia icon" aria-hidden="true" height="50" width="50" /> <span>Blockpedia</span>
             </Col>
             <Col className="d-flex align-items-center" xs={12} sm={6}>
-              <form action="/block" method="get">              
+              <form action="/blocks" method="get">              
                 <input type="input" id="searchField" name="numberOrHash" placeholder='Search Blockpedia by block number or hash' />
                 <input type='submit' value='Search' />
               </form>
             </Col>
             <Col className="links d-flex align-items-center" xs={12} sm={3}>
-              <Link to="/">Newest Block</Link>
-              <Link to="/block/0">Genesis Block</Link>
+              <Link to="/blocks/">Newest Block</Link>
+              <Link to="/blocks/0">Genesis Block</Link>
             </Col>
           </Row>
 
           <Switch>
             <Route exact path="/">
-              <Block />
+              <Homepage />
             </Route>
-            <Route path="/account/:accountHash">
+            <Route path="/accounts/:accountHash">
               <Account />
             </Route>
-            <Route path="/transaction/:transactionHash">
+            <Route path="/transactions/:transactionHash">
               <Transaction />
             </Route>
-            <Route path="/block/:paramBlockNumber">
+            <Route path="/blocks/:paramBlockNumber">
               <Block />
             </Route>
-            <Route path="/block/">
-              <Block />
-            </Route>
-            <Route path="/address/:paramAddress">
+            <Route path="/blocks/">
               <Block />
             </Route>
           </Switch>

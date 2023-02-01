@@ -67,11 +67,11 @@ function Transaction() {
           <tbody>
             <tr>
               <td>From</td>
-              <td><Link to={`/account/${transaction.from}?highlightTransaction=${transactionHash}`}>{transaction.from}</Link></td>
+              <td><Link to={`/accounts/${transaction.from}?highlightTransaction=${transactionHash}`}>{transaction.from}</Link></td>
             </tr>
             <tr>
               <td>To</td>
-              <td><Link to={`/account/${transaction.to}?highlightTransaction=${transactionHash}`}>{transaction.to}</Link></td>
+              <td><Link to={`/accounts/${transaction.to}?highlightTransaction=${transactionHash}`}>{transaction.to}</Link></td>
             </tr>
             <tr>
               <td>Value</td>
@@ -79,7 +79,7 @@ function Transaction() {
             </tr>
             <tr>
               <td>Block</td>
-              <td><Link to={`/block/${transaction.blockHash}?highlightTransaction=${transactionHash}`}>{transaction.blockHash}</Link></td>
+              <td><Link to={`/blocks/${transaction.blockHash}?highlightTransaction=${transactionHash}`}>{transaction.blockHash}</Link></td>
             </tr>
             <tr>
               <td>Confirmations</td>
@@ -145,7 +145,7 @@ function Transaction() {
       <Col xs={3} id="rightColumn">
         <div class="wrapper">
           <p>Transaction #{transactionHash.slice(0,7)}...</p>
-          <Identicon string={transaction.hash} size="200" bg="#ccccff" fg="#CF9C65" />
+          <Identicon string={transactionHash} size="200" bg="#ccccff" fg="#CF9C65" />
           <div>Identicon for transaction's hash</div>
         </div>
       </Col>

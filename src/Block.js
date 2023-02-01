@@ -101,7 +101,7 @@ function Block() {
             </tr>
             <tr>
               <td>Parent Hash</td>
-              <td><Link to={`/block/${block.parentHash}`}>{block.parentHash}</Link></td>
+              <td><Link to={`/blocks/${block.parentHash}`}>{block.parentHash}</Link></td>
             </tr>
             <tr>
               <td>Timestamp</td>
@@ -169,10 +169,10 @@ function Block() {
             {block.transactions.length === 0 && <tr><td colSpan={4} class='noResults'>None</td></tr>}
             {block.transactions.map((t,index) => (
               <tr key={t.transactionIndex} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
-                <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
-                <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
+                <td><Link to={`/accounts/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
+                <td><Link to={`/accounts/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
                 <td>{t.value ? t.value.toString() : "--"}</td>
-                <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+                <td><Link to={`/transactions/${t.hash}`}>{t.hash}</Link></td>
               </tr>
             ))}
           </tbody>
@@ -194,11 +194,12 @@ function Block() {
     <Row className='beforeAndAfter'>
       <Col className='cell' xs={6} md={{ offset: 2, span: 4 }}>
         Preceded by<br />
-        <Link to={`/block/${blockNumber-1}`}>Block {blockNumber-1}</Link>
+        {blockNumber > 0 && <Link to={`/blocks/${blockNumber-1}`}>Block {blockNumber-1}</Link>}
+        {blockNumber === 0 && <i>Nothing!</i>}
       </Col>
       <Col className='cell' xs={6} md={4}>
         Succeeded by<br />
-        <Link to={`/block/${blockNumber+1}`}>Block {blockNumber+1}</Link>
+        <Link to={`/blocks/${blockNumber+1}`}>Block {blockNumber+1}</Link>
       </Col>
     </Row>
     </>

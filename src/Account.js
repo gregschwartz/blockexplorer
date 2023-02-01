@@ -96,9 +96,9 @@ function Account() {
                 {sent.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
                 {sent.map((t, index) => (
                   <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
-                    <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
+                    <td><Link to={`/accounts/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
                     <td>{t.value ? t.value.toString() : "--"}</td>
-                    <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+                    <td><Link to={`/transactions/${t.hash}`}>{t.hash}</Link></td>
                   </tr>
                 ))}
               </tbody>
@@ -118,9 +118,9 @@ function Account() {
                 {received.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
                 {received.map((t, index) => (
                   <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
-                    <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
+                    <td><Link to={`/accounts/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
                     <td>{t.value ? t.value.toString() : "--"}</td>
-                    <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+                    <td><Link to={`/transactions/${t.hash}`}>{t.hash}</Link></td>
                   </tr>
                 ))}
               </tbody>

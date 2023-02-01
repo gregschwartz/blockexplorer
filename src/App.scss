@@ -168,3 +168,75 @@ table {
     font-size: 13px;
   }
 }
+
+//Homepage
+.HomepageTopBox {
+  background: #f9f9f9;
+  border-color: #ddd;
+  border: 1px solid #aaa;
+  padding: 10px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  font-size: 0.875em;
+  font-size: calc(1em * 0.875);
+  line-height: 1.6;
+  text-align: center;
+
+  h1 {
+    font-size: 22px;
+    line-height: 29px;
+    margin: 0;
+  }
+}
+
+.leftCol {
+  background: #f5fffa;
+  border-color: #cef2e0;
+  border: 1px solid #aaa;
+  padding: 0 0.5em 0.5em;
+  margin-top: 4px;
+
+  h2 {
+    background: #cef2e0;
+    border-color: #a3bfb1;
+    border: 1px solid #aaa;
+    margin: 0.5em 0;
+    padding: 0.2em 0.4em;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .block {
+    margin: 20px 0;
+
+    div {
+      word-break: break-all;     
+    }
+  }
+}
+
+.rightCol {
+  background: #f5faff;
+  border-color: #cedff2;
+  border: 1px solid #aaa;
+  padding: 0 0.5em 0.5em;
+  margin-top: 4px;
+
+  h2 {
+    background: #cedff2;
+    border-color: #a3b0bf;
+    border: 1px solid #aaa;
+    margin: 0.5em 0;
+    padding: 0.2em 0.4em;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .transaction {
+    margin: 20px 0;
+
+    div {
+      word-break: break-all;     
+    }
+  }
+}
