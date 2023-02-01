@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import Identicon from 'react-identicons';
 import Table from 'react-bootstrap/Table';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -25,15 +29,6 @@ function Account() {
 
   const [balance, setBalance] = useState();
 
-  /*
-    Identicon params, use later for theme
-    size: (Number) Single number to represent width and height of identicon image. Defaults to 400.
-    padding (Number) Padding around blocks. Defaults to 0.
-    bg (String) Override color for background blocks. Transparent by default.
-    fg (String) Override color for foreground blocks. Generated randomly from hash by default.
-    palette (Array) Provide an array of colors to be used as foreground block colors.
-  */
-
   async function getAccount() {
     loading = false;
 
@@ -45,6 +40,7 @@ function Account() {
       category: categoriesToRetrieve,
     });
     received = r.transfers;
+    // console.log("received", received);
 
     const s = await alchemy.core.getAssetTransfers({
       fromAddress: accountHash,
@@ -52,6 +48,7 @@ function Account() {
       category: categoriesToRetrieve,
     });
     sent = s.transfers;
+    // console.log("sent", sent);
 
     const bal = await alchemy.core.getBalance(accountHash);
     setBalance(bal?.toString());
@@ -67,49 +64,81 @@ function Account() {
   }
 
   return (
-    <div className="App">
-      <h1>Account</h1>
-      <Identicon string={accountHash} />
-      <h3>Balance: {balance} eth</h3>
-      <Table striped id="sent">
-        <thead>
-          <tr>
-            <th>To</th>
-            <th>Amount</th>
-            <th>Transaction Hash</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sent.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
-          {sent.map((t, index) => (
-            <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
-              <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
-              <td>{t.value ? t.value.toString() : "--"}</td>
-              <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Table striped id="received">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>Amount</th>
-            <th>Transaction Hash</th>
-          </tr>
-        </thead>
-        <tbody>
-          {received.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
-          {received.map((t, index) => (
-            <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
-              <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
-              <td>{t.value ? t.value.toString() : "--"}</td>
-              <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
+    <>
+    <Row>
+      <Col>
+        <div class='title'>
+          <span>Ethereum</span>
+          <h1>Account <abbr title={accountHash}>#{accountHash.slice(0,20)}...</abbr></h1>
+        </div>
+      </Col>
+    </Row>
+    <Row>
+      <Col xs={9}>
+        <p>Balance: {balance} eth</p>
+        
+        <div class='title'>
+          <h2>Transactions</h2>
+        </div>
+
+        <Tabs defaultActiveKey="sent" transition={false} fill justify>
+
+          <Tab eventKey="sent" title="Sent">
+            <Table striped>
+              <thead>
+                <tr>
+                  <th>To</th>
+                  <th>Amount</th>
+                  <th>Transaction Hash</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sent.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
+                {sent.map((t, index) => (
+                  <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
+                    <td><Link to={`/account/${t.to}?highlightTransaction=${t.hash}`}>{t.to}</Link></td>
+                    <td>{t.value ? t.value.toString() : "--"}</td>
+                    <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Tab>
+
+          <Tab eventKey="received" title="Received">
+            <Table striped>
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>Amount</th>
+                  <th>Transaction Hash</th>
+                </tr>
+              </thead>
+              <tbody>
+                {received.length === 0 && <tr><td colSpan={3} class='noResults'>None</td></tr>}
+                {received.map((t, index) => (
+                  <tr key={t.hash} class={t.hash === highlightTransaction ? "highlight" : (index % 2 === 0 ? "even" : "odd")}>
+                    <td><Link to={`/account/${t.from}?highlightTransaction=${t.hash}`}>{t.from}</Link></td>
+                    <td>{t.value ? t.value.toString() : "--"}</td>
+                    <td><Link to={`/transaction/${t.hash}`}>{t.hash}</Link></td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Tab>
+
+        </Tabs>
+        
+      </Col>
+      <Col xs={3} id="rightColumn">
+          <div class="wrapper">
+            <p>Account #{accountHash.slice(0,7)}...</p>
+            <Identicon string={accountHash} size={200} fg="#70ff70" />
+            <div>Identicon for account's hash</div>
+          </div>
+        </Col>
+    </Row>
+    </>
   );
 }
 

@@ -1,7 +1,11 @@
 $theme-colors: (
     "info": tomato,
-    "danger": teal
+    "danger": teal,
 );
+$tableHeadBackground: #eaecf0;
+$blockColor: #ccccff;
+$transanctionColor: #CF9C65;
+$accountColor: #70ff70;
 
 @import "~bootstrap/scss/bootstrap";
 
@@ -11,21 +15,40 @@ html body {
 }
 
 .topNav {
-  form input#searchField {
-    background: no-repeat left / 1.23076923em url(https://en.wikipedia.org/w/skins/Vector/resources/common/images/search.svg?ac00d);
-    width: 90%;
-    padding-left: 25px;
+  text-align: center;
+
+  form {
+    width: 100%;
+
+    input#searchField {
+      background: no-repeat left / 1.23076923em url(https://en.wikipedia.org/w/skins/Vector/resources/common/images/search.svg?ac00d);
+      width: calc(95% - 4em);
+      padding: 4px 8px 4px 25px;
+      border-color: #ccc;
+      box-shadow: inset 0 0 0 1px transparent;
+      transition-property: background-color,color,border-color,box-shadow;
+      border-radius: 2;
+
+      &:enabled {
+        transition-duration: .25s;
+      }
+    }
+
+    input[type='submit'] {
+      padding: 4px 0;
+      width: 4em;
+      border-left-width: 0px;
+    }
   }
 
   .links a {
-    float: left;
     margin-right: 10px;
   }
 
   margin-bottom: 40px;
 }
 
-#title {
+.title {
   box-shadow: 0 1px #a2a9b1;
   position: relative;
 
@@ -35,6 +58,15 @@ html body {
     position: absolute;
     right: 0;
     bottom: 0;
+  }
+
+  h1 {
+    font-size: 29px;
+  }
+
+  h2 {
+    font-size: 21px;
+    margin-top: 30px;
   }
 }
 
@@ -51,26 +83,88 @@ html body {
     line-height: 1.5em;
 
     p {
+      margin-top: 5px;
       font-weight: bold;
+      font-size: 16px;
     }
+  }
+}
+
+//tabs
+ul.nav-tabs li.nav-item {
+  button {
+    background: #ffffff;
+  }
+  button.active {
+    background-color: $tableHeadBackground !important;
   }
 }
 
 table {
   text-align: left;
 
+  thead {
+    position: sticky;
+    top: 0px;
+    margin: 0 0 0 0;
+
+    th {
+      background-color: $tableHeadBackground !important;
+      text-align: center;
+
+      a#scrollToTop {
+        position: absolute;
+        right: 0;
+        text-decoration: none;
+        font-weight: normal;
+        font-size: small;
+      }
+    }
+  }
+
   td.noResults {
     text-align: center;
     color: gray;
   }
 
-  td:nth-child(3), td:nth-child(4) {
-    width: 24em;
+  // td:nth-child(3), td:nth-child(4) {
+  //   width: 24em;
+  // }
+
+  td {
     word-break: break-all;
   }
 
   tr.highlight td {
     background-color: burlywood;
   }
+
+  &#log {
+    //index column needs a minimum width
+    td:nth-child(1) {
+      width: 3em;
+    }
+  }  
 }
 
+.beforeAndAfterTitle div {
+  text-align: center;
+  background-color: $tableHeadBackground;
+  border-top: 5px solid $blockColor;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 5px 0;
+}
+
+.beforeAndAfter {
+  text-align: center;
+
+  .cell {
+    background-color: #f8f9fa;
+    color: #202122;
+    border: 1px solid #a2a9b1;
+    padding: 5px;
+    font-size: 13px;
+  }
+}

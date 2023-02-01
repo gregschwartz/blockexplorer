@@ -79,14 +79,14 @@ function Block() {
     <>
     <Row>
       <Col>
-        <div id='title'>
+        <div class='title'>
           <span>Ethereum</span>
           <h1>Block #{blockNumber}</h1>
         </div>
       </Col>
     </Row>
     <Row>
-      <Col xs={9}>
+      <Col sm={9} xs={12}>
         <table id="blockParts">
           <thead>
             <tr>
@@ -140,22 +140,29 @@ function Block() {
           </tbody>
         </table>
         </Col>
-        <Col xs={3} id="rightColumn">
+        <Col sm={3} xs={12} id="rightColumn">
           <div class="wrapper">
             <p>Block #{blockNumber}</p>
-            <Identicon string={blockNumber} size={200} />
+            <Identicon string={blockNumber} size={200} fg="#ccccff" />
+            <div>Identicon for block's hash</div>
           </div>
         </Col>
     </Row>
     <Row>
       <Col>
+        <div class='title'>
+          <h2>Transactions</h2>
+        </div>
         <Table striped id="transactions">
           <thead>
             <tr>
               <th>From</th>
               <th>To</th>
               <th>Amount</th>
-              <th>Transaction Hash</th>
+              <th>
+                Transaction Hash
+                {block.transactions.length > 0 && <a id="scrollToTop" href="#top">^ top</a>}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -170,6 +177,28 @@ function Block() {
             ))}
           </tbody>
         </Table>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <div class='title'>
+          <h2>Links</h2>
+        </div>
+      </Col>
+    </Row>
+    <Row className='beforeAndAfterTitle'>
+      <Col xs={12} md={{ offset: 2, span: 8 }}>
+        Block History
+      </Col>
+    </Row>
+    <Row className='beforeAndAfter'>
+      <Col className='cell' xs={6} md={{ offset: 2, span: 4 }}>
+        Preceded by<br />
+        <Link to={`/block/${blockNumber-1}`}>Block {blockNumber-1}</Link>
+      </Col>
+      <Col className='cell' xs={6} md={4}>
+        Succeeded by<br />
+        <Link to={`/block/${blockNumber+1}`}>Block {blockNumber+1}</Link>
       </Col>
     </Row>
     </>
